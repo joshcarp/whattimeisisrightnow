@@ -19,6 +19,7 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if command.Text == ""{
 		w.Write([]byte("Please enter a city"))
 	}
+	log.Println(command.Text)
 	for _, timezone := range timezones{
 		if strings.Contains(strings.ToLower(timezone),strings.ToLower(strings.ReplaceAll(command.Text, " ", ""))){
 			res, err = http.Get("https://worldtimeapi.org/api/timezone/"+timezone)
