@@ -1,6 +1,7 @@
 package whattimeisitrightnow
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -8,7 +9,7 @@ import (
 
 func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Println(r)
-	log.Println(r.Body)
+	log.Println(ioutil.ReadAll(r.Body))
 	w.Write([]byte(time.Now().String()))
 
 }
