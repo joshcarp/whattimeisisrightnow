@@ -12,11 +12,13 @@ import (
 
 func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Println(r)
-	log.Println(ioutil.ReadAll(r.Body))
 	var res *http.Response
 	var err error
 	command, err := slack.SlashCommandParse(r)
 	log.Println(err)
+	if command.Text == ""{
+		w.Write([]byte("Please enter a city"))
+	}
 	for _, timezone := range timezones{
 		if strings.Contains(strings.ToLower(timezone),strings.ToLower(strings.ReplaceAll(command.Text, " ", ""))){
 			res, err = http.Get("https://worldtimeapi.org/api/timezone/"+timezone)
@@ -27,9 +29,7 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-	if res == nil{
-		w.Write([]byte("Please enter a city"))
-	}
+
 	defer res.Body.Close()
 	bytes, err := ioutil.ReadAll(res.Body)
 	log.Println(err)
