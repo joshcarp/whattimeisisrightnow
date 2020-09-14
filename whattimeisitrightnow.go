@@ -18,6 +18,7 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Println(err)
 	if command.Text == ""{
 		w.Write([]byte("Please enter a city"))
+		return
 	}
 	log.Println(command.Text)
 	for _, timezone := range timezones{
