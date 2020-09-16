@@ -45,7 +45,11 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(bytes, &worldtime)
 	t := worldtime.Datetime.Format(time.ANSIC)
 	c := slack.New(command.Token)
-	message := fmt.Sprintf(`The time in %s is %s`, command.ChannelID, command.Text, t)
+	message := fmt.Sprintf(`{
+  "channel": "%s",
+  "text": "The time in %s is %s",
+  "as_user": true
+}`, command.ChannelID, command.Text, t)
 	c.PostMessage(command.ChannelID, slack.MsgOptionText(message, false))
 }
 
